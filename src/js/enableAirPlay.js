@@ -25,9 +25,18 @@ function getExistingAirPlayButton(player) {
  */
 function ensureAirPlayButtonExists(player, options) {
    var existingAirPlayButton = getExistingAirPlayButton(player);
+   var indexOpt;
 
    if (options.addButtonToControlBar && !existingAirPlayButton) {
-      player.controlBar.addChild('airPlayButton', options);
+      // Figure out AirPlay button's index
+      indexOpt = player.controlBar.children().length;
+      if (typeof options.buttonPositionIndex !== 'undefined') {
+         indexOpt = options.buttonPositionIndex >= 0
+            ? options.buttonPositionIndex
+            : player.controlBar.children().length + options.buttonPositionIndex;
+      }
+
+      player.controlBar.addChild('airPlayButton', options, indexOpt);
    }
 }
 
